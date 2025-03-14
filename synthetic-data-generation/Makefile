@@ -17,19 +17,19 @@ clean-folders:
 	rm -rf results/*
 
 extract-from-labelme:
-	python create_input_images_from_labelme.py --input_dir dataset/ZKW_Data/fg_images --output_dir input/foregrounds --margin $(LABELME_MARGIN)
+	python create_input_images_from_labelme.py --input_dir microorganism-dataset/ZKW_Data/fg_images --output_dir input/foregrounds --margin $(LABELME_MARGIN)
 
 get-backgrounds:
-	cp -r dataset/ZKW_Data/backgrounds/* input/backgrounds
+	cp -r microorganism-dataset/ZKW_Data/backgrounds/* input/backgrounds
 
 # extract-bboxes-from-labelme:
-# 	python labelme_to_yolo_extractor.py --input_dir dataset/ZKW_Data/fg_images/ \
+# 	python labelme_to_yolo_extractor.py --input_dir microorganism-dataset/ZKW_Data/fg_images/ \
 # 	--output_dir additional_real_images_as_bboxes --labels Tardigrade
 
 # either use the real images as additional backgrounds, or use them as a additional dataset
 # TODO: when using as additional dataset, adjust the run command to include the additional dataset and the percentage of the additional dataset
 bboxes-as-backgrounds:
-	python labelme_to_yolo_extractor.py --input_dir dataset/ZKW_Data/fg_images/ \
+	python labelme_to_yolo_extractor.py --input_dir microorganism-dataset/ZKW_Data/fg_images/ \
 	--output_dir tmp --labels Tardigrade
 	cp -r tmp/images/* input/backgrounds
 	mkdir -p input/labels
@@ -48,6 +48,11 @@ generate-images:
 	--distractor_objects Mud
 
 
+mix-datasets:
+	python dataset_mixer.py --input_dirs 'synthetic_images' 'microorganism-dataset/clean_data' --test_dataset 'microorganism-dataset/ZKW_Data/test' \
+	--percent_sets 90 10 --output_dir ready_dataset --class_names Tardigrade
+
 run:
-	python train_model.py --input_dirs 'synthetic_images' 'dataset/clean_data' --test_dataset 'dataset/ZKW_Data/test' \
-	--dataset_dir 'ready_dataset' --results_dir 'results' -e 15 --percentages 90 10
+	python rain_model.py --dataset_dir 'ready_dataset' \
+	--num_epochs 25 --results_dir 'results'
+

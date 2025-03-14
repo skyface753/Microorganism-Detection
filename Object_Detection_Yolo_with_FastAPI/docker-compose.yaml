@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  web:
+    build: .  # Build the Docker image from the current directory
+    command: sh -c "uvicorn app:app --reload --port=8000 --host=0.0.0.0"  # Command to run when the container starts, starting the web server with Uvicorn
+    ports:
+      - 8000:8000  # Map port 8000 on the host to port 8000 on the container

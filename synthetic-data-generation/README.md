@@ -1,7 +1,7 @@
 Download the dataset:
 
 ```bash
-kaggle datasets download -p dataset sebastianjrz/microorganism-dataset --unzip
+kaggle datasets download -p microorganism-dataset sebastianjrz/microorganism-dataset --unzip
 ```
 
 Files:

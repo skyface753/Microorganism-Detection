@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection Results</title>
+</head>
+<body>
+    <h1>Object Detection Results</h1>
+
+    <!-- Display the image -->
+    <img src="{{ image_file }}" alt="Detected Image">
+
+    <!-- Display detected objects -->
+    <h2>Detected Objects:</h2>
+    <ul>
+        {% for obj in objects %}
+            <li>{{ obj.label }} - Confidence: {{ obj.confidence }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
