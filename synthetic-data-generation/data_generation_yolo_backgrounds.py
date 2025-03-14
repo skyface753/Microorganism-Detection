@@ -195,12 +195,21 @@ class SyntheticImageGenerator:
                         if category not in categories_from_labels:
                             categories_from_labels.append(category)
             categories_from_labels.sort()
-            for categorie in self.categories:
-                categorie['id'] = categorie['id'] + len(categories_from_labels)
-            counter = 0
+            # self.categories [{'name': 'Tardigrade', 'id': 0}]
+            # categories_from_labels['0']
             for category in categories_from_labels:
-                self.categories.append({'name': category, 'id': counter})
-                counter += 1
+                # check if the id is already in the categories
+                found = False
+                for cat in self.categories:
+                    if int(cat['id']) == int(category):
+                        found = True
+                        break
+                if not found:
+                    self.categories.append(
+                        {'name': category, 'id': len(self.categories
+                                                     )})
+
+            print(self.categories)
 
     def _validate_output_directory(self):
         # Check if directory is empty
@@ -968,3 +977,4 @@ if __name__ == '__main__':
                                              args.avoid_collisions, args.parallelize, args.yolo_input, args.yolo_output, args.color_harmonization, args.color_harmon_alpha,
                                              args.random_color_harmon_alpha, args.gaussian_options, args.debug, blending_methods, args.pyramid_blending_levels, args.distractor_objects)
     data_generator.generate_images()
+

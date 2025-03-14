@@ -50,4 +50,4 @@ generate-images:
 
 run:
 	python train_model.py --input_dirs 'synthetic_images' 'dataset/clean_data' --test_dataset 'dataset/ZKW_Data/test' \
-	--dataset_dir 'ready_dataset' --results_dir 'results' -e 15 --percentages 80 10
+	--dataset_dir 'ready_dataset' --results_dir 'results' -e 15 --percentages 90 10
