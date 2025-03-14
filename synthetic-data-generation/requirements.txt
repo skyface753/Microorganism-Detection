@@ -5,3 +5,4 @@ shapely
 scikit-image
 albumentations
 joblib
+labelme

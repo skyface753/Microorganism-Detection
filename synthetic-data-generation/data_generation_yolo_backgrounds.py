@@ -79,7 +79,7 @@ class SyntheticImageGenerator:
                  image_width: int, image_height: int, fixed_image_sizes: bool, augmentation_path: str, scale_foreground_by_background_size: bool,
                  scaling_factors: List[int], avoid_collisions: bool, parallelize: bool, yolo_input: bool, yolo_output: bool,
                  color_harmonization: bool, color_harmon_alpha: float, random_color_harmon_alpha: bool, gaussian_options: List[int], debug: bool,
-                 blending_methods: List[str], pyramid_blending_levels: int):
+                 blending_methods: List[str], pyramid_blending_levels: int, distractor_objects: List[str]):
         self.input_dir = Path(input_dir)
         self.output_dir = Path(output_dir)
         self.image_number = image_number
@@ -105,6 +105,7 @@ class SyntheticImageGenerator:
 
         self.blending_methods = blending_methods
         self.pyramid_blending_levels = pyramid_blending_levels
+        self.distactor_objects = distractor_objects
 
         self._validate_input_directory()
         self._validate_output_directory()
@@ -143,6 +144,13 @@ class SyntheticImageGenerator:
                 warnings.warn(
                     f'File found in foregrounds directory, ignoring: {category}')
                 continue
+            # check if the category is a distractor object
+            if category.name in self.distactor_objects:
+                warnings.warn(
+                    f'Distractor object found in foregrounds directory, ignoring: {category}')
+                warnings.warn(
+                    f'Distractor objects are not supported yet. Coming soon...')
+                continue
 
             # Add images inside category folder to foregrounds dictionary
             self.foregrounds_dict[category.name] = list(category.glob('*.png'))
@@ -174,8 +182,8 @@ class SyntheticImageGenerator:
                 self.labels_dict) > 0, f'No valid label files were found in directory: {self.labels_dir}'
 
             # Check if the number of labels match the number of background images
-            assert len(self.background_images) == len(
-                self.labels_dict), f'Number of label files does not match the number of background images'
+            # assert len(self.background_images) == len(
+            #     self.labels_dict), f'Number of label files does not match the number of background images'
 
             # when we have labels here, we need to update the categories from the foregrounds
             # so we have all labels in the categories (startet with the background categories, and then added the labels from the foregrounds)
@@ -261,11 +269,17 @@ class SyntheticImageGenerator:
             if self.yolo_output:
                 if self.yolo_input:
                     # get the corresponding label file
-                    old_label_file = self.labels_dict[background_image_path.stem]
-                    # read the label file
-                    old_label_lines = []
-                    with open(old_label_file, 'r') as f:
-                        old_label_lines = f.readlines()
+                    # check if the label file exists
+                    if background_image_path.stem in self.labels_dict:
+                        old_label_lines = []
+                        old_label_file = self.labels_dict[background_image_path.stem]
+                        # read the label file
+                        with open(old_label_file, 'r') as f:
+                            old_label_lines = f.readlines()
+                    else:
+                        old_label_lines = None  # no old label file
+                        warnings.warn(
+                            f'Label file for {background_image_path.stem} not found, skipping...')
                 # create the new annotations
                 new_label_lines = []
                 for shape in annotations['shapes']:
@@ -288,7 +302,7 @@ class SyntheticImageGenerator:
                 label_output_path = self.output_dir / \
                     f'labels/{save_filename}.txt'
                 with open(label_output_path, 'w+') as output_file:
-                    if self.yolo_input:
+                    if self.yolo_input and old_label_lines:
                         for line in old_label_lines:
                             output_file.write(line)
                         # newline
@@ -903,6 +917,8 @@ if __name__ == '__main__':
                         help='Blending methods to use (alpha, gaussian, poisson_normal, poisson_mixed, pyramid). List of strings')
     parser.add_argument('-p_l', '--pyramid_blending_levels', type=int, default=6,
                         help='Number of levels for the pyramid blending method')
+    parser.add_argument('--distractor_objects', type=str, nargs='+', default=[],
+                        help='List of foreground images, which should be used as distractor objects')
     args = parser.parse_args()
 
     blending_methods = []
@@ -921,6 +937,11 @@ if __name__ == '__main__':
             print(f'Blending method {blending_method} not found')
             import sys
             sys.exit(1)
+
+    if args.fixed_image_sizes and args.yolo_input:
+        warnings.warn(
+            'Fixed image sizes is set to true, but yolo input is enabled. This is currently not supported!')
+        quit()
 
     # set the logging level
     logging.basicConfig(level=logging.INFO)
@@ -945,5 +966,5 @@ if __name__ == '__main__':
     data_generator = SyntheticImageGenerator(args.input_dir, args.output_dir, img_number, args.max_objects_per_image, args.image_width,
                                              args.image_height, args.fixed_image_sizes, args.augmentation_path, args.scale_foreground_by_background_size, args.scaling_factors,
                                              args.avoid_collisions, args.parallelize, args.yolo_input, args.yolo_output, args.color_harmonization, args.color_harmon_alpha,
-                                             args.random_color_harmon_alpha, args.gaussian_options, args.debug, blending_methods, args.pyramid_blending_levels)
+                                             args.random_color_harmon_alpha, args.gaussian_options, args.debug, blending_methods, args.pyramid_blending_levels, args.distractor_objects)
     data_generator.generate_images()

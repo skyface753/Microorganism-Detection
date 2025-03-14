@@ -5,3 +5,4 @@ ready_dataset
 results
 synthetic_images
 *.pt
+additional_real_images_as_bboxes
