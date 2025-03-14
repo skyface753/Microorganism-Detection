@@ -1,0 +1,7 @@
+.venv
+dataset
+input
+ready_dataset
+results
+synthetic_images
+*.pt
