@@ -1,9 +1,1 @@
-kaggle
-torch
-torchvision
-ultralytics
-shapely
-scikit-image
-albumentations
-joblib
-labelme
+synthetic-data-gen

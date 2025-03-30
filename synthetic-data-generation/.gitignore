@@ -6,3 +6,7 @@ results
 synthetic_images
 *.pt
 additional_real_images_as_bboxes
+__pycache__
+synthetic_data_gen.egg-info
+images_resized/
+foregrounds_from_test_dataset/
