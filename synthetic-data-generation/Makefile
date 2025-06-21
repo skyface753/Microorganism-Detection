@@ -17,7 +17,7 @@ clean-folders:
 	rm -rf results/*
 
 extract-from-labelme:
-	SynDataGenYOLO extract --input_dir microorganism-dataset/ZKW_Data/fg_images --output_dir input/foregrounds --margin $(LABELME_MARGIN)
+	uv run SynDataGenYOLO extract --input_dir microorganism-dataset/ZKW_Data/fg_images --output_dir input/foregrounds --margin $(LABELME_MARGIN)
 
 get-backgrounds:
 	cp -r microorganism-dataset/ZKW_Data/backgrounds/* input/backgrounds
@@ -29,7 +29,7 @@ get-backgrounds:
 # either use the real images as additional backgrounds, or use them as a additional dataset
 # TODO: when using as additional dataset, adjust the run command to include the additional dataset and the percentage of the additional dataset
 bboxes-as-backgrounds:
-	SynDataGenYOLO extract_yolo --input_dir microorganism-dataset/ZKW_Data/fg_images/ \
+	uv run SynDataGenYOLO extract_yolo --input_dir microorganism-dataset/ZKW_Data/fg_images/ \
 	--output_dir tmp --labels Tardigrade
 	cp -r tmp/images/* input/backgrounds
 	mkdir -p input/labels
@@ -41,7 +41,7 @@ prepare: create-folders clean-folders extract-from-labelme get-backgrounds bboxe
 
 
 generate-images:
-	SynDataGenYOLO generate --input_dir input --augmentation_path transform.yml \
+	uv run SynDataGenYOLO generate --input_dir input --augmentation_path transform.yml \
 	--output_dir synthetic_images --image_number $(ANZAHL_BILDER) --output_mode YOLO \
 	--scaling_factors 0.25 0.85 --max_objects_per_image 4 --gaussian_options 9 9 \
 	--fixed_image_sizes --parallelize --blending_methods alpha gaussian pyramid --yolo_input \
@@ -49,7 +49,7 @@ generate-images:
 
 
 mix-datasets:
-	SynDataGenYOLO mix --input_dirs 'synthetic_images' 'microorganism-dataset/all_real' --test_dataset 'microorganism-dataset/ZKW_Data/test' \
+	uv run SynDataGenYOLO mix --input_dirs 'synthetic_images' 'microorganism-dataset/all_real' --test_dataset 'microorganism-dataset/ZKW_Data/test' \
 	--percent_sets 60 40 --output_dir ready_dataset --class_names Tardigrade
 
 run:
