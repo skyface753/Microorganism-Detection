@@ -1,4 +1,4 @@
-ANZAHL_BILDER=30
+ANZAHL_BILDER=3420
 LABELME_MARGIN=20
 
 
@@ -49,8 +49,8 @@ generate-images:
 
 
 mix-datasets:
-	SynDataGenYOLO mix --input_dirs 'synthetic_images' 'microorganism-dataset/clean_data' --test_dataset 'microorganism-dataset/ZKW_Data/test' \
-	--percent_sets 90 10 --output_dir ready_dataset --class_names Tardigrade
+	SynDataGenYOLO mix --input_dirs 'synthetic_images' 'microorganism-dataset/all_real' --test_dataset 'microorganism-dataset/ZKW_Data/test' \
+	--percent_sets 60 40 --output_dir ready_dataset --class_names Tardigrade
 
 run:
 	python train_model.py --dataset_dir 'ready_dataset' \

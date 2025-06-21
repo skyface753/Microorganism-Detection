@@ -7,13 +7,13 @@ def run(dataset_dir, num_epochs, results_dir):
 
     model = YOLO("yolo11m.pt")
     train_res = model.train(data=f"{dataset_dir}/data.yaml", epochs=num_epochs, batch=0.8, save=True, seed=42, augment=True)
-
     if not os.path.exists(results_dir):
         os.makedirs(results_dir)
-    print("Result file:", str(train_res.save_dir) + "/results.png")
-    subprocess.run(f'cp {str(train_res.save_dir)}/results.png {results_dir}/results.png', shell=True)
-    subprocess.run(f'cp {str(train_res.save_dir)}/results.txt {results_dir}/results.txt', shell=True)
-    subprocess.run(f'cp {train_res.save_dir}/weights/best.pt {results_dir}/best.pt', shell=True)
+    save_dir = model.trainer.save_dir
+    print("Result file:", str(save_dir) + "/results.png")
+    subprocess.run(f'cp {str(save_dir)}/results.png {results_dir}/results.png', shell=True)
+    subprocess.run(f'cp {str(save_dir)}/results.txt {results_dir}/results.txt', shell=True)
+    subprocess.run(f'cp {save_dir}/weights/best.pt {results_dir}/best.pt', shell=True)
 
 
     test_res = model.val(data=f"{dataset_dir}/data.yaml", split="test")
