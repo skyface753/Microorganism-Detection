@@ -76,6 +76,8 @@ def doMultiScaleCAM(modelPath, imagePath, modelIndexes=[16, 19, 22], experimentN
 if __name__ == "__main__":
     image_path = 'microorganism-dataset/ZKW_Data/fg_images_as_bbox/images/Tardigrade_01_0008.png'
     model_weights = 'best-t1.pt'
+    print(YOLO(model_weights).model)
+    exit(0)
     layers = [5, 8, 16, 19, 22]
     doMultiScaleCAM(model_weights,
                     image_path, layers, experimentName="t1-baseline")

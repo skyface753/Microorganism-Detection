@@ -53,6 +53,6 @@ mix-datasets:
 	--percent_sets 60 40 --output_dir ready_dataset --class_names Tardigrade
 
 run:
-	python train_model.py --dataset_dir 'ready_dataset' \
+	uv run train_model.py --dataset_dir 'ready_dataset' \
 	--num_epochs 25 --results_dir 'results'
 

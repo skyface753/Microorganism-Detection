@@ -5,7 +5,7 @@ import os
 
 def run(dataset_dir, num_epochs, results_dir):
 
-    model = YOLO("yolo11m.pt")
+    model = YOLO("yolo12m.pt")
     train_res = model.train(data=f"{dataset_dir}/data.yaml", epochs=num_epochs, batch=0.8, save=True, seed=42, augment=True)
     if not os.path.exists(results_dir):
         os.makedirs(results_dir)
