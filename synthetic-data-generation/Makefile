@@ -1,4 +1,4 @@
-ANZAHL_BILDER=3420
+ANZAHL_BILDER=300
 LABELME_MARGIN=20
 
 
@@ -22,6 +22,14 @@ extract-from-labelme:
 get-backgrounds:
 	cp -r microorganism-dataset/ZKW_Data/backgrounds/* input/backgrounds
 
+create-all-real:
+	mkdir -p microorganism-dataset/all_real/images
+	mkdir -p microorganism-dataset/all_real/labels
+	cp -r microorganism-dataset/ZKW_Data/fg_images_as_bbox/images/* microorganism-dataset/all_real/images
+	cp -r microorganism-dataset/ZKW_Data/fg_images_as_bbox/labels/* microorganism-dataset/all_real/labels
+	cp -r microorganism-dataset/clean_data/images/* microorganism-dataset/all_real/images
+	cp -r microorganism-dataset/clean_data/labels/* microorganism-dataset/all_real/labels
+
 # extract-bboxes-from-labelme:
 # 	python labelme_to_yolo_extractor.py --input_dir microorganism-dataset/ZKW_Data/fg_images/ \
 # 	--output_dir additional_real_images_as_bboxes --labels Tardigrade
@@ -36,7 +44,7 @@ bboxes-as-backgrounds:
 	cp -r tmp/labels/* input/labels
 	rm -rf tmp
 
-prepare: create-folders clean-folders extract-from-labelme get-backgrounds bboxes-as-backgrounds
+prepare: create-folders clean-folders extract-from-labelme get-backgrounds bboxes-as-backgrounds create-all-real
 
 
 
