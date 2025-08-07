@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>
+      Bridging the Syn-to-Real Gap in Microorganism Detection Using Blended
+      Synthetic Data
+    </title>
+
+    <!-- Favicon: hda logo -->
+    <link rel="icon" type="image/png" href="assets/logos/logo_h-da_rot-1.png" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="css/own_styles.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/moon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.min.css"
+    />
+
+    <!-- <script src="plugin/drawer/drawer.js"></script> -->
+    <!-- <link rel="stylesheet" href="plugin/drawer/drawer.css" /> -->
+
+    <!-- Media List Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/revealjs-media-list@1/mediaList/mediaList.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/revealjs-media-list@1/mediaList/mediaList.min.css"
+    />
+
+    <!-- Title Footer Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/revealjs-title-footer@1/src/title-footer.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/revealjs-title-footer@1/src/title-footer.min.css"
+    />
+
+    <!-- Chart Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+
+    <!-- Logo Plugin -->
+    <!-- <script src="plugin/logo/logo.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/revealjs-logo@1/logo/logo.js"></script>
+  </head>
+  <body>
+    <!-- <div id="watermark">
+      <img src="assets/logos/logo_h-da_rot-1.png" />
+    </div> -->
+    <div class="reveal">
+      <div class="slides">
+        <!-- Title -->
+        <section data-state="no-title-footer" class="title-slide">
+          <h1
+            style="font-size: 2em; margin-bottom: 0em"
+            class="title-slide-text"
+          >
+            Bridging the Syn-to-Real Gap in Microorganism Detection Using
+            Blended Synthetic Data
+          </h1>
+          <table class="names-table">
+            <tr>
+              <td class="table-data">Sebastian Jörz</td>
+            </tr>
+            <!-- <tr>
+              <td class="table-data">Contributor Name</td>
+            </tr> -->
+          </table>
+        </section>
+        <section
+          data-markdown="subfiles_en/10_problem/11_klaeranlage_baertierchen.md"
+        ></section>
+        <!-- 01-Problem -->
+        <section>
+          <!-- Problem:Domain Gap -->
+          <section
+            data-markdown="subfiles_en/10_problem/30_domain-gap.md"
+          ></section>
+          <!--Ploblem: Synthetische Daten -->
+          <section
+            data-markdown="subfiles_en/10_problem/41_syn_data_and_gap.md"
+          ></section>
+          <!-- Problem: Syn-to-Real Gap -->
+          <!-- <section
+            data-markdown="subfiles_en/10_problem/50_syn-to-real-gap.md"
+          ></section> -->
+        </section>
+        <!-- 02-Forschungsgegenstand -->
+
+        <!-- 03-Theorie -->
+        <!-- <section>
+          <section
+            data-markdown="subfiles_en/03_theory/01_object-detection.md"
+          ></section>
+          <section data-markdown="subfiles_en/03_theory/02_iou.md"></section>
+        </section> -->
+        <section>
+          <!-- Blending: Problem -->
+          <section
+            data-auto-animate
+            data-markdown="subfiles_en/30_theory/10_blending/10_problem.md"
+          ></section>
+          <!-- Blending: Methoden -->
+          <section
+            data-auto-animate
+            data-markdown="subfiles_en/30_theory/10_blending/20_methods.md"
+          ></section>
+          <!-- Blending: Poisson -->
+          <section
+            data-markdown="subfiles_en/30_theory/10_blending/30_poisson.md"
+          ></section>
+          <!-- Blending: Pyramid -->
+          <section
+            data-markdown="subfiles_en/30_theory/10_blending/40_pyramid.md"
+          ></section>
+          <!-- Blending: Overview -->
+          <section
+            data-markdown="subfiles_en/30_theory/10_blending/50_overview.md"
+          ></section>
+        </section>
+        <!-- <section
+          data-markdown="subfiles_en/20_research_goal/10_research-questions.md"
+        ></section> -->
+        <section>
+          <section
+            data-markdown="subfiles_en/30_theory/20_quantify_syntoreal/10_self_fid_cmmd.md"
+            data-auto-animate
+          ></section>
+          <section
+            data-auto-animate
+            data-markdown="subfiles_en/30_theory/20_quantify_syntoreal/11_embeddings.md"
+          ></section>
+        </section>
+        <!-- 50-Experiment -->
+        <section data-markdown="subfiles_en/60_tests/10_tests.md"></section>
+        <section
+          data-markdown="subfiles_en/50_approach/10_experiment.md"
+        ></section>
+        <!-- 60-Tests -->
+        <!-- 70-Results -->
+        <section>
+          <section data-markdown="subfiles_en/70_results/10_self.md"></section>
+          <section
+            data-markdown="subfiles_en/70_results/20_fid_cmmd.md"
+          ></section>
+        </section>
+        <!-- 80-Conclusion -->
+        <section>
+          <!-- <section
+            data-auto-animate
+            data-markdown="subfiles_en/80_conclusion/10_rq1.md"
+          ></section>
+          <section
+            data-auto-animate
+            data-markdown="subfiles_en/80_conclusion/20_rq2.md"
+          ></section> -->
+          <section
+            data-markdown="subfiles_en/80_conclusion/21_rq_combined.md"
+          ></section>
+          <!-- <section
+            data-auto-animate
+            data-markdown="subfiles_en/80_conclusion/30_limitations.md"
+          ></section> -->
+          <section
+            data-auto-animate
+            data-markdown="subfiles_en/80_conclusion/40_outlook.md"
+          ></section>
+        </section>
+        <section>
+          <!-- <h3>Vielen Dank für Ihre Aufmerksamkeit!</h3> -->
+          <h3>Thank you for your attention!</h3>
+        </section>
+        <section>
+          <section
+            data-markdown="subfiles_en/30_theory/20_quantify_syntoreal/20_fid_extra.md"
+          ></section>
+          <section
+            data-markdown="subfiles_en/30_theory/20_quantify_syntoreal/21_cmmd_extra.md"
+          ></section>
+          <section
+            data-markdown="subfiles_en/30_theory/20_quantify_syntoreal/22_embeddings_extra.md"
+          ></section>
+        </section>
+        <section data-markdown="subfiles_en/60_tests/20_splits.md"></section>
+        <section
+          data-markdown="subfiles_en/70_results/30_self_fid_cmmd.md"
+        ></section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/zoom/zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/math/math.min.js"></script>
+
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: 'c',
+        navigationMode: 'linear',
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealZoom,
+          RevealMath.KaTeX,
+          RevealMediaList,
+          RevealChart,
+          RevealLogo,
+          RevealTitleFooter,
+        ],
+        mediaIllustrations: {
+          title: 'Illustrations', // Change the title of the final slide
+          fontSizeList: '0.9rem', // Change the font size for the list
+          fontSizeCaption: '0.8rem', // Change the font size for the caption
+          imageCaptionName: 'Image',
+          videoCaptionName: 'Video',
+        },
+        chart: {
+          defaults: {
+            maintainAspectRatio: false,
+            responsive: true,
+            color: 'lightgray', // color of labels
+            font: { size: 30 },
+            scale: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 },
+              grid: { color: 'lightgray' }, // color of grid lines
+            },
+          },
+          bar: { backgroundColor: ['firebrick', 'darkred', 'red'] },
+          line: {
+            borderColor: ['#16A085', '#fd8d3c', '#4169E1'],
+            borderDash: [
+              [0, 0],
+              [5, 10],
+              [10, 5],
+            ],
+          },
+          pie: {
+            backgroundColor: [['#D81B60', '#1E88E5', '#FFC107', '#004D40']],
+          },
+        },
+        titleFooter: {
+          title: '',
+          author: 'Sebastian Jörz',
+          showDate: true,
+          background: 'rgba(169,169,169,0.1)',
+        },
+        logo: {
+          show_on_all: true,
+          layout: 'horizontal', // or 'vertical'
+          logos: {
+            logo1: { src: 'assets/logos/count-care-logo.webp', width: '100px' },
+            logo2: {
+              src: 'assets/logos/Hda_logo.svg',
+              width: '100px',
+              style: { filter: 'invert(1)' },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
