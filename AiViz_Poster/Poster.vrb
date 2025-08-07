@@ -1,0 +1,349 @@
+
+% Environment for displaying columns, option [t] stands for Top in the display
+\begin{columns}[t,totalwidth=0.95\paperwidth]
+
+% The number of columns ("column") reflects the number of columns on the poster.
+
+% An empty column can be used to create spacing between columns, e.g.
+\begin{column}{0.025\paperwidth}\end{column}
+
+
+% Start of the first column
+\begin{column}{0.5\paperwidth}
+
+% Change the colors and backgrounds of the block titles
+\setbeamercolor{block title}{fg=red,bg=white}
+
+\begin{alertblock}{Initial Situation}
+
+\begin{center}
+	Hate Speech Detection using NLP
+\end{center}
+
+The \textit{DeTox} dataset, which contains tweets classified as Hate Speech (0/1), serves as the basis.
+
+\hfill\parbox[t]{0.5\linewidth}{
+\begin{itemize}
+
+%   \item Choice of page size and orientation
+%   \item Define poster structure
+ \item \textbf{Number of Datasets:} 9251
+ \item \textbf{Labels:} 0 (Not Hate Speech), 1 (Hate Speech)
+
+\end{itemize}
+}\parbox[t]{0.5\linewidth}{
+\begin{itemize}
+
+ \item \textbf{Class Imbalance:}
+	\begin{itemize}
+		\item Class 0 (Not Hate Speech): approx. 71.6\%
+		\item Class 1 (Hate Speech): approx. 28.4\%
+	\end{itemize}
+
+\end{itemize}
+}\hfill
+
+\end{alertblock}
+
+%\medskip
+\vspace*{-5mm}
+
+% Change the colors and backgrounds of the block titles
+\setbeamercolor{block title}{fg=ngreen,bg=white}
+
+
+%% USED DATASET
+% Dataset, Source, Statistics (Number of entries, Labels, Class distribution)
+\begin{block}{The Dataset}
+	\textbf{Validation Dataset:} 80\% Training, 20\% Validation.
+	The F1-Scores refer to the validation dataset.
+    % \textbf{Source:} detox\_train\_data.tsv
+    % \begin{itemize}
+    %     \item \textbf{Number of Datasets:} 9251
+    %     \item \textbf{Labels:} 0 (Not Hate Speech), 1 (Hate Speech)
+    %     \item \textbf{Class Distribution:}
+    %         \begin{itemize}
+    %             \item Class 0 (Not Hate Speech): approx. 71.6\%
+    %             \item Class 1 (Hate Speech): approx. 28.4\%
+    %         \end{itemize}
+    % \end{itemize}
+    % \textbf{Example Data:}
+	\begin{table}[h!]
+	\centering
+	\begin{tabular}{|l|c|}
+		\hline
+		\textbf{Text} & \textbf{Label} \\
+		\hline
+		Wenn man 4 AFD'ler  braucht um eine Banane zu schälen, 5, um eine Glühbirne in eine Fassung zu drehen, & \\
+		Ähm, da muss man leider die Querdenker und Herr Liefers mit dazu nehmen. Dann könnte es gerade so reichen. & 0 \\
+		 https://t.co/teI4b6ooUR & \\
+		\hline
+		@RockInTheBrand @ABaerbock Stimmt. Er ist zu intelligent! & 0 \\
+		\hline
+		"Nazis mit Teenagern zu symbolisieren ist GENAU DAS RICHTIGE. Denn das SIND SIE. Nicht das Teenager & \\
+		dumm wären (man muss hier ja manchmal für Idioten sowas noch extra erklären), sondern Teenager,  & 1 \\
+		bei denen es im Hirn nicht mehr VORWÄRTS (in Richtung ""Reife eines Erwachsenen"")..." & \\
+		\hline
+		\hline
+	\end{tabular}
+	\caption{Example data from the dataset}
+	\label{tab:example_data}
+	\end{table}
+
+
+\end{block}
+
+\begin{block}{Data Preprocessing}
+	\textbf{Goal:} Improve text quality and reduce noise to increase model performance.
+    \begin{itemize}
+        \item Convert to lowercase
+        \item Remove URLs and mentions (e.g., `@username`)
+        \item Remove hashtag symbols (e.g., '\#'), but retain the text
+        \item \textbf{Stemming}:
+		\begin{itemize}
+			\item Reduce words to their root form
+			\item e.g., 'universal', 'university' and 'universe' to 'univers'
+			\item Advantage: Fast processing
+			\item Disadvantage: Loss of information and meaning
+		\end{itemize}
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{|l|c|}
+				\hline
+				\textbf{Text} & \textbf{Label} \\
+				\hline
+				wenn man 4 afd'ler braucht um ein banan zu schal , 5 , um ein gluhbirn in ein fassung zu dreh , & 0 \\
+				ahm , da muss man leid die querdenk und herr lief mit dazu nehm . dann konnt es gerad so reich . &  \\
+				\hline
+				stimmt . er ist zu intelligent ! & 0 \\
+				\hline
+				nazis mit teenag zu symbolisi ist genau das richtig . denn das sind sie . nicht das teenag dumm & \\
+				war ( man muss hier ja manchmal fur idiot sowas noch extra erklar ) , sond teenag , bei den es & 1 \\
+				im hirn nicht mehr vorwart ( in richtung `` reif ein erwachs '' ) ... & \\
+				\hline
+			\end{tabular}
+			\caption{Example data after preprocessing with Stemming}
+			\label{tab:processed_data}
+		\end{table}
+
+		\item \textbf{Lemmatization}:
+		\begin{itemize}
+			\item Reduce words to their base form (lemma)
+			\item e.g., 'better' to 'good', 'running' to 'run'
+			\item Advantage: Better preservation of meaning and context
+			\item Disadvantage: More time-consuming than stemming
+		\end{itemize}
+		% \item Lemmatization (e.g. 'laufen', 'läuft' to 'lauf') => Time-consuming, but better
+		\begin{center}
+			\begin{minipage}{0.9\linewidth}
+			\begin{table}[H]
+			\centering
+			\begin{tabular}{|l|c|}
+			\hline
+			\textbf{Text} & \textbf{Label} \\
+			\hline
+				4 Afd 'ler   brauchen Banane schälen 5 Glühbirne Fassung drehen & \\
+				ähm Querdenker Herr Liefers nehmen reichen & 0 \\
+				\hline
+			stimmen intelligent & 0 \\
+				\hline
+			nazis Teenager symbolisieren genau richtig Teenager dumm sein manchmal & \\
+			Idiot sowas extra erklären Teenager Hirn vorwärts Richtung reif erwachsen & 1 \\
+				\hline
+			\end{tabular}
+			\caption{Example data after preprocessing with Lemmatization}
+			% Used \texttt{spacy} with the German model \texttt{de\_core\_news\_lg}.}
+			\end{table}
+			\end{minipage}
+		\end{center}
+	\end{itemize}
+
+\end{block}
+
+\begin{block}{First Analysis}
+	% Tf-IDF with 3 PCA Components and then Image
+	\begin{itemize}
+		\item \textbf{TF-IDF:} Term Frequency-Inverse Document Frequency for word weighting
+		\item \textbf{Visualization:}
+		\begin{itemize}
+			\item PCA (Principal Component Analysis) for dimensionality reduction
+			\item Scatterplot of the 3 PCA components
+			\begin{center}
+				\includegraphics[width=0.69\linewidth]{assets/tfidf_pca_3d.png}
+			\end{center}
+		\end{itemize}
+		\item \textbf{Results:}
+		\begin{itemize}
+			\item PCA shows no clear separation between classes.
+			\item The data are highly overlapping, indicating high classification complexity.
+		\end{itemize}
+	\end{itemize}
+\end{block}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% End of the first column
+\end{column}
+
+
+% An empty column for spacing between filled columns serves for a nicer display
+\begin{column}{0.025\paperwidth}\end{column}
+
+
+% Start of the second column
+\begin{column}{0.4\paperwidth}
+
+
+\begin{block}{First 'Classic' Models}
+    Traditional Machine Learning models were tested as a basis
+    \begin{itemize}
+        \item \textbf{Vectorization Methods:}
+        \begin{itemize}
+            \item TF-IDF (with German stopwords)
+            \item FastText Embeddings (with `word2vec-google-news-300`)
+        \end{itemize}
+		\item \textbf{SMOTE} (Synthetic Minority Over-sampling Technique): For handling class imbalance.
+        \item \textbf{Classification Models:}
+        \begin{itemize}
+            \item Random Forest (F1-Score up to: 0.35)
+            \item XGBoost (F1-Score up to 0.44)
+        \end{itemize}
+		\item \textbf{Experiments:}
+		\begin{itemize}
+			\item Different preprocessing (with/without Stemming, Lemmatization, etc.)
+			\item Different tokenizer hyperparameters
+			\item Hyperparameter optimization of the models using `GridSearchCV`
+			% \item Class imbalance handling with SMOTE
+		\end{itemize}
+    \end{itemize}
+	\begin{table}[ht]
+    \centering
+
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+        \midrule
+        \texttt{0} & 0.74 & 0.87 & 0.80 & 1325 \\
+        \texttt{1} & 0.43 & 0.24 & 0.31 & 526 \\
+        \midrule
+        \textbf{Accuracy} &  &  & 0.69 & 1851 \\
+        \textbf{Macro Avg} & 0.58 & 0.56 & 0.56 & 1851 \\
+        \textbf{Weighted Avg} & 0.65 & 0.69 & 0.66 & 1851 \\
+        \bottomrule
+    \end{tabular}
+	\caption{Classification Report of a Random Forest (F1-Score=0.30 for Class 1) on the validation dataset.}
+\end{table}
+\end{block}
+
+
+
+    \begin{block}{First Approach with BERT}
+    \begin{itemize}
+		\item \textbf{Model:} Based on `bert-base-german-cased`
+        \item \textbf{AutoModelForSequenceClassification:} Model with a head for classification.
+        \item \textbf{Tokenization:}
+        \begin{itemize}
+            \item `AutoTokenizer` with `bert-base-german-cased`.
+            \item 99\% Quantile of word lengths: 48 words.
+            \item 95\% Quantile of token lengths: 73 tokens.
+            \item Exploratory analysis with different token lengths
+            \item Best result with 72 tokens => 5.77\% of the data is truncated.
+%             \begin{center}
+% \includegraphics[width=0.7\linewidth]{assets/tokens_count_in_df.png}
+% 			\end{center}
+			\begin{center}
+			\begin{minipage}{0.48\linewidth}
+				\includegraphics[width=\linewidth]{assets/word_counts.png}
+				\centering
+				\small Distribution of word lengths in tweets
+			\end{minipage}
+			\hfill
+			\begin{minipage}{0.48\linewidth}
+				\includegraphics[width=\linewidth]{assets/token_length.png}
+				\centering
+				\small Distribution of token lengths in tweets
+			\end{minipage}
+			\end{center}
+        \end{itemize}
+		\item \textbf{Class Imbalance Handling:}
+		\begin{itemize}
+			\item Inverse frequency weights applied to weight the minority class.
+			\item weight\_0 = num\_samples / (2 * label\_counts[0])
+			\item weight\_1 = num\_samples / (2 * label\_counts[1])
+		\end{itemize}
+		\item \textbf{Evaluation Metric for Best Model:} F1-Score, due to class imbalance.
+		\item \textbf{Regularization:} Early Stopping
+		% Results
+		\item \textbf{Best F1-Score:} 0.64
+
+        % \item \textbf{Comparison with other BERT models:} `bert-base-german-cased` showed better performance than `Hate-speech-CNERG/dehatebert-mono-german` in initial tests.
+    \end{itemize}
+\end{block}
+
+
+\begin{block}{BERT Transformer \& Embeddings with XGBoost}
+    \begin{itemize}
+		% 1. transform with bert, embeddings with bert, then xgboost
+		\item \textbf{Model:} `deepset/gbert-large`
+		\item \textbf{Tokenization:} `AutoTokenizer` with 72 tokens
+		\item \textbf{Embeddings:}
+		\begin{itemize}
+			\item `AutoModel` with `deepset/gbert-large`
+			\item Extraction of the last Hidden States as Embeddings
+		\end{itemize}
+		\item \textbf{XGBoost Classifier:}
+		\begin{itemize}
+			\item Use of extracted Embeddings as input
+			\item Hyperparameter optimization with `GridSearchCV`
+			\item Class imbalance handling using `scale\_pos\_weight`
+		\end{itemize}
+		\item \textbf{F1-Score:} 0.58
+    \end{itemize}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lcccc}
+			\toprule
+			\textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+			\midrule
+			\texttt{0} & 0.82 & 0.88 & 0.85 & 1308 \\
+			\texttt{1} & 0.65 & 0.52 & 0.58 & 543 \\
+			\midrule
+			\textbf{Accuracy} & & & 0.78 & 1851 \\
+			\textbf{Macro Avg} & 0.73 & 0.70 & 0.71 & 1851 \\
+			\textbf{Weighted Avg} & 0.77 & 0.78 & 0.77 & 1851 \\
+			\bottomrule
+		\end{tabular}
+		\caption{Classification Report of the XGBoost Model with BERT Embeddings on the Validation Dataset}
+		\label{tab:classification_report_updated}
+	\end{table}
+\end{block}
+
+\begin{block}{Evaluation}
+	Evaluated on a separate test dataset with 1,018 data.\\
+	\textbf{Results (macro-F1-Score):}
+	\begin{itemize}
+		\item \textbf{ChatGPT:} 0.20
+		\item \textbf{RF:} 0.44 - 0.55
+		\item \textbf{XGBoost:} 0.40 - 0.63
+		\item \textbf{BERT:} up to 0.68
+		\item \textbf{BERT + XGBoost:} up to 0.72
+	\end{itemize}
+\end{block}
+
+\begin{block}{Conclusion and Outlook}
+    \begin{itemize}
+        \item Best F1-Score on own validation dataset: 0.64 with BERT.
+        \item Best F1-Score on test dataset: 0.72 with BERT-Embeddings and XGBoost.
+		\item \textbf{Hate Speech Detection} is a complex task requiring careful data preprocessing and model selection.
+    \end{itemize}
+\end{block}
+
+
+
+
+% End of the second column
+\end{column}
+
+\end{columns}
+
