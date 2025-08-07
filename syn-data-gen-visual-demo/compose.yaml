@@ -1,0 +1,11 @@
+services:
+  syn-data-gen-visual-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: skyface753/syn-data-gen-visual-demo:latest
+    container_name: syn-data-gen-visual-demo
+    ports:
+      - '8501:8501'
+    environment:
+      - UV_LOG_LEVEL=info
