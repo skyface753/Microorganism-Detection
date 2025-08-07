@@ -1,0 +1,6 @@
+.venv/
+cut_objects/
+new_backgrounds/
+new_backgrounds_1/
+original_images/
+border_gan_epoch_1.pth
